@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block title %} {% endblock %}</title>
+        <!-- Favicon-->
+        {% load static %}
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+   <div class="container">
+       <a class="navbar-brand" href="/news/">Новостной портал</a>
+       <button class="navbar-toggler" type="button" data-toggle="collapse"
+               data-target="#navbarResponsive"
+               aria-controls="navbarResponsive" aria-expanded="false"
+               aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarResponsive">
+           <ul class="navbar-nav ml-auto">
+               <li class="nav-item active">
+                   <a class="nav-link" href="#">Home
+                       <span class="sr-only">(current)</span>
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/about/">О нас</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/contact/">Контакты</a>
+               </li>
+               <ul class="navbar-nav ml-auto">
+               <li class="nav-item"> <a class="nav-link" href="/news/">Все посты</a></li>
+               {% if user.is_superuser %}
+               <li class="nav-item"> <a class="nav-link" href="/admin/">Админка</a></li>
+               {% endif %}
+               <li class="nav-item"> <a class="nav-link" href="{% url 'search_posts' %}">Поиск</a></li>
+               <li class="nav-item"> <a class="nav-link" href="/news/articles/create/">Добавить статью</a></li>
+               <li class="nav-item"> <a class="nav-link" href="/news/news/create/">Добавить Новость</a></li>
+               <li class="nav-item"> <a class="nav-link" href="{% url 'category_lists' %}">Все категории</a></li>
+               {% if user.is_authenticated %}
+               <li class="nav-item"> <a class="nav-link" href="/accounts/update/{{ user.pk }}">Твой профиль {{ user.username }}</a></li>
+               <li class="nav-item"> <a class="nav-link" href="/accounts/logout/">Выйти</a>
+               {% endif %}
+               {% if user.is_anonymous %}
+               <li class="nav-item"> <a class="nav-link" href="/accounts/login/">Войти</a>
+               <li class="nav-item"> <a class="nav-link" href="/accounts/signup/">Регистрация</a>
+               {% endif %}
+                   <!-- Добавить здесь новые пункты меню. -->
+           </ul>
+               <h1>{{ request.resolver_match.view_name }}</h1>
+           </ul>
+       </div>
+   </div>
+</nav>
+     <div class="col-lg-12 text-center">
+     {% if user.is_authenticated %}
+        <p>Привет {{ user.username }}!</p>
+     {% else %}
+        <p>Вы не вошли в систему.</p>
+        <a class="btn btn-outline-secondary " href="{% url 'account_login' %}">Войти</a>
+     {% endif %}
+     </div>
+        <!-- Page content-->
+<div class="container">
+   <div class="row">
+       <div class="col-lg-12 text-center">
+           {% block content %}
+           {{ flatpage.content }}
+           {% endblock content %}
+       </div>
+   </div>
+</div>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Portal 2022</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

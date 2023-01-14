@@ -1,0 +1,15 @@
+"подключение к контейнеру"
+docker exec -it 41b25a37ad299fa963c4e081bd41612260c3bbe7bb8316d790b3fc8d399b9120 psql -U db_user db_portal
+
+"перекодировка дампа"
+set PYTHONIOENCODING=utf-8
+
+загрузка дампа на сервак
+python manage.py loaddata db.json
+
+выгрузка дампа
+py manage.py dumpdata > db.json
+
+запуск тасок селери
+celery -A Portal  worker -l info -P gevent
+

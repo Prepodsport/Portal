@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://bootstrap.fun/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>{% block title %} {% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+      <!-- Favicon-->
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+  </head>
+  <body class="p-3 m-0 border-0 bd-example">
+    <!-- Example Code -->
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Offcanvas темная навигационная панель</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Меню</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/news/">Новостной портал</a>
+              </li>
+               {% if user.is_authenticated %}
+               <li class="nav-item"> <a class="nav-link" href="/accounts/update/{{ user.pk }}">Твой профиль {{ user.username }}</a></li>
+               <li class="nav-item"> <a class="nav-link" href="/accounts/logout/">Выйти</a>
+               {% endif %}
+                {% if user.is_anonymous %}
+               <li class="nav-item"> <a class="nav-link" href="/accounts/login/">Войти</a>
+               <li class="nav-item"> <a class="nav-link" href="/accounts/signup/">Регистрация</a>
+               {% endif %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Выпадающий список</a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/account/setauthor/">Действие</a></li>
+                  <li><a class="dropdown-item" href="#">Другое действие</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
+              <button class="btn btn-success" type="submit">Поиск</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="col-lg-12 text-center">
+     {% if user.is_authenticated %}
+        <p>Привет {{ user.username }}!</p>
+     {% else %}
+        <p>Вы не вошли в систему.</p>
+        <a class="btn btn-outline-secondary " href="{% url 'account_login' %}">Войти</a>
+     {% endif %}
+     </div>
+        <!-- Page content-->
+<div class="container">
+   <div class="row">
+       <div class="col-lg-12 text-center">
+           {% block content %}
+           {{ flatpage.content }}
+           {% endblock content %}
+       </div>
+   </div>
+</div>
+            <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Portal 2022</p></div>
+        </footer>
+        <!-- Core theme JS-->
+        <script src="/news/js/index.js"></script>
+    <!-- End Example Code -->
+  </body>
+</html>

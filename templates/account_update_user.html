@@ -1,0 +1,35 @@
+{% extends 'default.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block head %}
+{% block title %} Изменить профиль {% endblock %}
+{% if is_your_id == path %}
+{% else %}
+<meta http-equiv="refresh" content="5; url={% url 'account_update' is_your_id %}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<hr>
+
+{% if is_your_id == path %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-outline-secondary " type="submit" value="Сохранить">
+</form>
+{% else %}
+<h2><a href="{% url 'account_update' is_your_id %}">Вы пытаетесь изменить чужой профиль. Нажмите, чтобы вернуться к изменениям своего профиля.
+Или в течение 5 секунд мы сделаем это автоматически</a></h2>
+{% endif %}
+
+<hr>
+
+{% if is_not_author %}
+<h4>Хотите стать автором и публиковать статьи?</h4>
+<a class="btn btn-outline-secondary" type="submit" href="{% url 'set_me_author' %}">нажав сюда я стану автором</a><br><br>
+{% endif %}
+
+{% endblock %}

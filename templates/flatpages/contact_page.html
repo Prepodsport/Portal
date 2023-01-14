@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    {{ flatpage.title }}
+    {% endblock title %}
+</head>
+<body>
+    {% block content %}
+    <h2>{{ flatpage.title }}</h2>
+    <hr>
+    <h3>Наши контакты:</h3>
+    {{ flatpage.content }}
+    {% endblock content %}
+</body>
+</html>

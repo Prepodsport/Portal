@@ -1,0 +1,23 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Пост
+{% endblock title %}
+
+<!-- В контенте на странице выводим пост, идентификатор которого был передан в url -->
+{% block content %}
+<div class="row justify-content-center">
+<div class="card col-8 my-4">
+  <div class="card-body">
+    <h2 class="card-title mb-2 text-muted">Название: </h2>
+    <h5 class="card-title">{{ post.title }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Дата публикации: {{ post.date_time }}</h6>
+    <h2 class="card-title mb-2 text-muted" >Содержание: </h2>
+    <p class="card-text">{{ post.text|censor|safe }}</p>
+    <a href="/news/" class="card-link">К списку статей...</a>
+  </div>
+</div>
+</div>
+{% endblock content %}

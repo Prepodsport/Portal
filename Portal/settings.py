@@ -289,67 +289,67 @@ INTERNAL_IPS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'style': '{',
-#     'formatters': {
-#         'critical_errors': {
-#             'format': '%(asctime)-12s %(levelname)-8s %(pathname)s %(message)s %(exc_info)s'
-#         },
-#
-#     },
-#     'filters': {
-#         'require_debug_true': {
-#             '()': 'django.utils.log.RequireDebugTrue',
-#         },
-#         'require_debug_false': {
-#             '()': 'django.utils.log.RequireDebugFalse',
-#         },
-#     },
-#     'handlers': {
-#         'critical_errors': {
-#             'level': 'ERROR',
-#             'filters': ['require_debug_false'],
-#             'class': 'logging.FileHandler',
-#             'formatter': 'critical_errors',
-#             'filename': 'logs/errors.log',
-#         },
-#     },
-#     'loggers': {
-#         'django.request': {
-#             'for_mail': {
-#                 'handlers': ['mail_admin'],
-#                 'level': 'ERROR',
-#                 'propagate': False,
-#             },
-#             'for_critical_errors': {
-#                 'handlers': ['critical_errors'],
-#                 'level': 'ERROR',
-#             },
-#         },
-#         'django.server': {
-#             'for_mail': {
-#                 'handlers': ['mail_admin'],
-#                 'level': 'ERROR',
-#                 'propagate': False,
-#             },
-#             'for_critical_errors': {
-#                 'handlers': ['critical_errors'],
-#                 'level': 'ERROR',
-#             },
-#         },
-#         'django.template': {
-#             'handlers': ['critical_errors'],
-#             'level': 'ERROR',
-#         },
-#         'django.db.backends': {
-#             'handlers': ['critical_errors'],
-#             'level': 'ERROR',
-#         },
-#
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style': '{',
+    'formatters': {
+        'critical_errors': {
+            'format': '%(asctime)-12s %(levelname)-8s %(pathname)s %(message)s %(exc_info)s'
+        },
+
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'critical_errors': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'formatter': 'critical_errors',
+            'filename': 'errors.log',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'for_mail': {
+                'handlers': ['mail_admin'],
+                'level': 'ERROR',
+                'propagate': False,
+            },
+            'for_critical_errors': {
+                'handlers': ['critical_errors'],
+                'level': 'ERROR',
+            },
+        },
+        'django.server': {
+            'for_mail': {
+                'handlers': ['mail_admin'],
+                'level': 'ERROR',
+                'propagate': False,
+            },
+            'for_critical_errors': {
+                'handlers': ['critical_errors'],
+                'level': 'ERROR',
+            },
+        },
+        'django.template': {
+            'handlers': ['critical_errors'],
+            'level': 'ERROR',
+        },
+        'django.db.backends': {
+            'handlers': ['critical_errors'],
+            'level': 'ERROR',
+        },
+
+    },
+}
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale')
 ]

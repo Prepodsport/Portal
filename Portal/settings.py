@@ -292,13 +292,27 @@ MEDIA_URL = '/media/'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'style': '{',
     'formatters': {
-        'critical_errors': {
-            'format': '%(asctime)-12s %(levelname)-8s %(pathname)s %(message)s %(exc_info)s'
+        'f_info': {
+            'format': '%(asctime)s %(levelname)s - %(module)s - %(message)s'
         },
-
+        'f_debug': {
+            'format': '%(asctime)s %(levelname)s - %(message)s'
+        },
+        'f_warning': {
+            'format': '%(asctime)s %(levelname)s - %(message)s - %(pathname)s'
+        },
+        'f_critical': {
+            'format': '%(asctime)s %(levelname)s - %(message)s - %(pathname)s - %(exc_info)s'
+        },
+        'f_mail': {
+            'format': '%(asctime)s %(levelname)s - %(message)s - %(pathname)s'
+        },
+        'f_security': {
+            'format': '%(asctime)s %(levelname)s - %(module)s - %(message)s'
+        },
     },
+
     'filters': {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
@@ -308,47 +322,80 @@ LOGGING = {
         },
     },
     'handlers': {
-        'critical_errors': {
-            'level': 'ERROR',
+        'h_info': {
+            'level': "INFO",
+            'class': "logging.FileHandler",
+            'filename': "general.log",
             'filters': ['require_debug_false'],
-            'class': 'logging.FileHandler',
-            'formatter': 'critical_errors',
-            'filename': 'errors.log',
+            'formatter': 'f_info',
+        },
+        'h_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'f_debug',
+            'filters': ['require_debug_true'],
+        },
+        'h_warning': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'f_warning',
+        },
+        'h_critical': {
+            'level': 'CRITICAL',
+            'class': 'logging.StreamHandler',
+            'formatter': 'f_critical',
+        },
+        'errors_log': {
+            'level': "ERROR",
+            'class': "logging.FileHandler",
+            'filename': "errors.log",
+            'formatter': 'f_critical',
+        },
+        'security_log': {
+            'level': "WARNING",
+            'class': "logging.FileHandler",
+            'filename': "security.log",
+            'formatter': "f_security",
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['require_debug_false'],
+            'formatter': 'f_mail',
         },
     },
     'loggers': {
+        'django': {
+            'handlers': ['h_info'],
+            'level': 'INFO',
+            'propagate': False,
+        },
         'django.request': {
-            'for_mail': {
-                'handlers': ['mail_admin'],
-                'level': 'ERROR',
-                'propagate': False,
-            },
-            'for_critical_errors': {
-                'handlers': ['critical_errors'],
-                'level': 'ERROR',
-            },
+            'handlers': ['mail_admins', 'errors_log'],
+            'level': 'ERROR',
+            'propagate': False,
         },
         'django.server': {
-            'for_mail': {
-                'handlers': ['mail_admin'],
-                'level': 'ERROR',
-                'propagate': False,
-            },
-            'for_critical_errors': {
-                'handlers': ['critical_errors'],
-                'level': 'ERROR',
-            },
+            'handlers': ['mail_admins', 'errors_log'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.db_backends': {
+            'handlers': ['errors_log'],
+            'level': 'ERROR',
+            'propagate': False,
         },
         'django.template': {
-            'handlers': ['critical_errors'],
+            'handlers': ['errors_log'],
             'level': 'ERROR',
+            'propagate': False,
         },
-        'django.db.backends': {
-            'handlers': ['critical_errors'],
-            'level': 'ERROR',
-        },
-
-    },
+        'django.security': {
+            'handlers': ['security_log'],
+            'level': 'WARNING',
+            'propagate': False,
+        }
+    }
 }
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale')
